@@ -6,19 +6,29 @@ public class Executor {
     private final Systm system;
     private final Collection<LinkedList<Integer>> routes = new ArrayList<>();
 
-    public Collection<LinkedList<Integer>> findRoutes() {
+    private void findRoutes() {
         for (Systm.Node lastNode : system.getLastNodes()) {
             depthSearch(system.getFirstNode(), lastNode, new LinkedList<>());
         }
-        return routes;
     }
 
 
     public Executor(Systm system) {
         this.system = system;
+        findRoutes();
     }
 
-    public double findSystemProbability(Collection<Double> statesProbabilities) {
+    public double findSystemProbability() {
+
+        Collection<Double> statesProbabilities = findStatesProbabilities(
+                findWorkableStates(
+                        generateAllStates(
+                                system.getNodes().size()
+                        )
+                )
+        );
+
+
         double probability = 0;
         for (double p : statesProbabilities) {
             probability += p;
@@ -26,10 +36,10 @@ public class Executor {
         return probability;
     }
 
-    public Collection<Double> findStatesProbabilities(List<List<Integer>> states) {
+    public Collection<Double> findStatesProbabilities(List<List<Integer>> workableStates) {
         Collection<Double> probabilities = new HashSet<>();
 
-        for (List<Integer> state : states) {
+        for (List<Integer> state : workableStates) {
             double probability = 1;
 
 
@@ -64,7 +74,7 @@ public class Executor {
         return workableStates;
     }
 
-    public static boolean stateIsWorkable(List<Integer> systemState, List<Integer> route) {
+    private static boolean stateIsWorkable(List<Integer> systemState, List<Integer> route) {
         for (int nodeState : route) {
 
             if (systemState.get(nodeState - 1) != 1) {

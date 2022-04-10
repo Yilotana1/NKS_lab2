@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -20,26 +19,17 @@ public class Main {
 
     }
 
+
     public static void main(String[] args) {
         dataInput();
 
+
+        System.out.println("HELloo world!!!");
         Systm system = new Systm(systemGraph, probabilities);
         Executor executor = new Executor(system);
-        Collection<LinkedList<Integer>> routes = executor.findRoutes();
-        System.out.println("Routes = " + routes);
-        System.out.println("ROutes len = " + routes.size());
-        List<List<Integer>> states = executor.generateAllStates(8);
-        List<List<Integer>> workableStates = executor.findWorkableStates(states);
 
-        System.out.println("workable states = " + workableStates);
-
-        Collection<Double> statesProbs = executor
-                .findStatesProbabilities(workableStates).stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-        System.out.println("states prob = " + statesProbs);
-        System.out.println("systemProb = " + executor.findSystemProbability(executor.findStatesProbabilities(workableStates)));
-
-
-
+        //Find system working probability
+        System.out.println("systemProb = " + executor.findSystemProbability());
 
 
     }

@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Systm {
@@ -8,7 +11,7 @@ public class Systm {
     private final List<Node> lastNodes;
     private final Node firstNode;
 
-    private final static int FIRST_NODE_ID = 1;
+    private static final int FIRST_NODE_ID = 1;
 
     public Node getFirstNode() {
         return firstNode;
