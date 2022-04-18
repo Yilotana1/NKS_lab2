@@ -6,8 +6,9 @@ public class ExecutorImpl implements Executor {
     private final Systm system;
     private final Collection<LinkedList<Integer>> routes = new ArrayList<>();
 
-
-
+    public Collection<LinkedList<Integer>> getRoutes() {
+        return routes;
+    }
 
     public ExecutorImpl(Systm system) {
         this.system = system;
@@ -34,9 +35,12 @@ public class ExecutorImpl implements Executor {
 
     private void findRoutes() {
         for (Node lastNode : system.getLastNodes()) {
-            depthSearch(system.getFirstNode(), lastNode, new LinkedList<>());
+            for (Node firstNode : system.getFirstNodes()) {
+                depthSearch(firstNode, lastNode, new LinkedList<>());
+            }
         }
     }
+
 
     private Collection<Double> findStatesProbabilities(List<List<Integer>> workableStates) {
         Collection<Double> probabilities = new HashSet<>();
@@ -59,6 +63,8 @@ public class ExecutorImpl implements Executor {
             probabilities.add(probability);
         }
 
+        System.out.println(probabilities);
+        System.out.println(probabilities.size());
         return probabilities;
     }
 
@@ -72,6 +78,12 @@ public class ExecutorImpl implements Executor {
                     workableStates.add(currentState);
                 }
             }
+        }
+        int i = 0;
+        System.out.println("workableStates:");
+        for (List<Integer> state :
+                workableStates) {
+            System.out.println();
         }
         return workableStates;
     }

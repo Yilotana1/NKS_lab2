@@ -1,11 +1,10 @@
 import java.util.Collection;
-import java.util.List;
 
 public interface Systm {
 
-     Node getFirstNode();
+     Collection<Node> getFirstNodes();
 
-     List<Node> getLastNodes();
+     Collection<Node> getLastNodes();
 
      Collection<Node> getNodes();
 }

@@ -1,27 +1,26 @@
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SystmImpl implements Systm{
+public class SystmImpl implements Systm {
 
     private final Collection<Node> nodes = new ArrayList<>();
 
-    private final List<Node> lastNodes;
-    private final Node firstNode;
+    private final Collection<Node> lastNodes;
+    private final Collection<Node> firstNodes;
 
     private static final int FIRST_NODE_ID = 1;
 
-    public Node getFirstNode() {
-        return firstNode;
+    public Collection<Node> getFirstNodes() {
+        return firstNodes;
     }
 
-    public List<Node> getLastNodes() {
+    public Collection<Node> getLastNodes() {
         return lastNodes;
     }
 
-    public SystmImpl(Map<Integer, Collection<Integer>> graph, double[] probabilities) {
+    public SystmImpl(Map<Integer, Collection<Integer>> graph, double[] probabilities, Collection<Integer> firstNodes) {
         for (Map.Entry<Integer, Collection<Integer>> entry : graph.entrySet()) {
             initializeNode(entry.getKey(), probabilities[entry.getKey() - 1], entry.getValue());
         }
@@ -30,10 +29,9 @@ public class SystmImpl implements Systm{
                 .filter(node -> node.linkedNodesIds().size() == 0)
                 .collect(Collectors.toList());
 
-        firstNode = nodes
+        this.firstNodes = nodes
                 .stream()
-                .filter(node -> node.getId() == FIRST_NODE_ID)
-                .findFirst().get();
+                .filter(node -> firstNodes.contains(node.getId())).collect(Collectors.toList());
 
     }
 
